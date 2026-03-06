@@ -22,7 +22,7 @@
       --bg: #ffffff;
       --bg-soft: #f8fafc;
       --border: #e2e8f0;
-      --radius: 12px;
+      --radius: 8px;
     }
 
     body {
@@ -108,21 +108,10 @@
     /* HERO */
     .hero {
       background: var(--navy);
-      padding: 140px 24px 100px;
+      padding: 130px 24px 80px;
       text-align: center;
       position: relative;
       overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -40%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
-      pointer-events: none;
     }
     .hero-content {
       max-width: 720px;
@@ -165,7 +154,7 @@
 
     /* STEPS */
     .steps {
-      padding: 100px 24px;
+      padding: 80px 24px;
       background: var(--bg);
     }
     .section-inner {
@@ -202,7 +191,7 @@
     .step-number {
       width: 56px;
       height: 56px;
-      border-radius: 16px;
+      border-radius: 10px;
       background: rgba(59, 130, 246, 0.08);
       color: var(--accent);
       font-size: 22px;
@@ -229,21 +218,10 @@
 
     /* DEMO */
     .demo {
-      padding: 100px 24px;
+      padding: 80px 24px;
       background: var(--navy);
       position: relative;
       overflow: hidden;
-    }
-    .demo::before {
-      content: '';
-      position: absolute;
-      bottom: -30%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
-      pointer-events: none;
     }
     .demo .section-label { color: var(--accent); }
     .demo .section-header h2 { color: #fff; }
@@ -264,7 +242,7 @@
 
     /* FEATURES */
     .features {
-      padding: 100px 24px;
+      padding: 80px 24px;
       background: var(--bg-soft);
     }
     .features-grid {
@@ -277,16 +255,15 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 32px;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s;
     }
     .feature-card:hover {
       border-color: var(--accent);
-      box-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
     }
     .feature-icon {
       width: 44px;
       height: 44px;
-      border-radius: 10px;
+      border-radius: 6px;
       background: rgba(59, 130, 246, 0.08);
       display: flex;
       align-items: center;
@@ -306,63 +283,9 @@
       line-height: 1.6;
     }
 
-    /* TRUST */
-    .trust {
-      padding: 100px 24px;
-      background: var(--bg);
-    }
-    .trust-content {
-      max-width: 680px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .trust-content h2 {
-      font-size: clamp(28px, 3.5vw, 40px);
-      font-weight: 700;
-      color: var(--navy);
-      letter-spacing: -0.5px;
-      margin-bottom: 20px;
-    }
-    .trust-content > p {
-      font-size: 16px;
-      color: var(--text-light);
-      margin-bottom: 40px;
-      line-height: 1.7;
-    }
-    .trust-points {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      text-align: left;
-      margin-bottom: 40px;
-    }
-    .trust-point {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
-    .trust-check {
-      flex-shrink: 0;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: rgba(34, 197, 94, 0.1);
-      color: #16a34a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      margin-top: 2px;
-    }
-    .trust-point p {
-      font-size: 15px;
-      color: var(--text);
-      line-height: 1.5;
-    }
-
     /* CTA */
     .cta {
-      padding: 80px 24px;
+      padding: 60px 24px;
       background: var(--navy);
       text-align: center;
     }
@@ -373,11 +296,8 @@
       margin-bottom: 16px;
       letter-spacing: -0.5px;
     }
-    .cta p {
-      color: var(--text-inverse);
-      opacity: 0.7;
-      font-size: 16px;
-      margin-bottom: 32px;
+    .cta .btn {
+      margin-top: 20px;
     }
 
     /* FOOTER */
@@ -417,7 +337,6 @@
     @media (max-width: 768px) {
       .steps-grid { grid-template-columns: 1fr; gap: 40px; }
       .features-grid { grid-template-columns: 1fr; }
-      .trust-points { grid-template-columns: 1fr; }
       .nav-links a:not(.btn) { display: none; }
       .hero { padding: 120px 24px 80px; }
     }
@@ -478,7 +397,7 @@
         <div class="step">
           <div class="step-number">3</div>
           <h3>Auto-Fill Any Form</h3>
-          <p>Navigate to any web form and click "Auto-Fill." Autofiller maps your data to the form and fills it instantly.</p>
+          <p>Click "Auto-Fill" on any web form. Done.</p>
         </div>
       </div>
     </div>
@@ -551,48 +470,9 @@
     </div>
   </section>
 
-  <!-- TRUST -->
-  <section class="trust">
-    <div class="section-inner">
-      <div class="trust-content">
-        <div class="section-label">Security &amp; Privacy</div>
-        <h2>Your data stays yours</h2>
-        <p>Autofiller is built with privacy at its core. Your documents are processed securely and never stored longer than needed.</p>
-        <div class="trust-points">
-          <div class="trust-point">
-            <div class="trust-check">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <p><strong>Encrypted storage</strong> &ndash; all data encrypted at rest and in transit</p>
-          </div>
-          <div class="trust-point">
-            <div class="trust-check">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <p><strong>No background tracking</strong> &ndash; only active when you click the button</p>
-          </div>
-          <div class="trust-point">
-            <div class="trust-check">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <p><strong>Delete anytime</strong> &ndash; wipe your account and all data with one click</p>
-          </div>
-          <div class="trust-point">
-            <div class="trust-check">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <p><strong>Never sold</strong> &ndash; your data is never shared or used for training</p>
-          </div>
-        </div>
-        <a href="https://yan-ga.github.io/autofiller-privacy/" class="btn btn-outline" target="_blank" rel="noopener">Read Our Privacy Policy</a>
-      </div>
-    </div>
-  </section>
-
   <!-- CTA -->
   <section class="cta">
-    <h2>Ready to stop filling forms manually?</h2>
-    <p>Install Autofiller and save hours every week.</p>
+    <h2>Ready to try it?</h2>
     <a href="https://chromewebstore.google.com/detail/nmknojfhgaaeghjdipkihclnlgogkmgh?utm_source=item-share-cb" class="btn btn-primary btn-hero" target="_blank" rel="noopener">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
       Add to Chrome
