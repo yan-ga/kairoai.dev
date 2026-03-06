@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kairo AI — Intelligent Form Autofill</title>
+  <meta name="description" content="Upload your documents, let AI extract the data, and auto-fill any web form in seconds. Save hours on repetitive form filling.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --navy: #0f172a;
+      --navy-light: #1e293b;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --text: #334155;
+      --text-light: #64748b;
+      --text-inverse: #e2e8f0;
+      --bg: #ffffff;
+      --bg-soft: #f8fafc;
+      --border: #e2e8f0;
+      --radius: 12px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a {
+      color: var(--text-inverse);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-hero {
+      padding: 14px 32px;
+      font-size: 16px;
+      border-radius: 10px;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+    }
+    .btn-outline:hover {
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    /* HERO */
+    .hero {
+      background: var(--navy);
+      padding: 140px 24px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content {
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 100px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-inverse);
+      opacity: 0.75;
+      max-width: 540px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* STEPS */
+    .steps {
+      padding: 100px 24px;
+      background: var(--bg);
+    }
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+    .section-header h2 {
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px;
+    }
+    .step {
+      text-align: center;
+      position: relative;
+    }
+    .step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: rgba(59, 130, 246, 0.08);
+      color: var(--accent);
+      font-size: 22px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .step h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .step p {
+      font-size: 15px;
+      color: var(--text-light);
+      line-height: 1.65;
+    }
+    .step-connector {
+      display: none;
+    }
+
+    /* DEMO */
+    .demo {
+      padding: 100px 24px;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+    .demo::before {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .demo .section-label { color: var(--accent); }
+    .demo .section-header h2 { color: #fff; }
+    .demo-video {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+      aspect-ratio: 16 / 9;
+    }
+    .demo-video iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* FEATURES */
+    .features {
+      padding: 100px 24px;
+      background: var(--bg-soft);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
+    }
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(59, 130, 246, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      font-size: 20px;
+    }
+    .feature-card h3 {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* TRUST */
+    .trust {
+      padding: 100px 24px;
+      background: var(--bg);
+    }
+    .trust-content {
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .trust-content h2 {
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+    }
+    .trust-content > p {
+      font-size: 16px;
+      color: var(--text-light);
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+    .trust-points {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      text-align: left;
+      margin-bottom: 40px;
+    }
+    .trust-point {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .trust-check {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.1);
+      color: #16a34a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+    .trust-point p {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* CTA */
+    .cta {
+      padding: 80px 24px;
+      background: var(--navy);
+      text-align: center;
+    }
+    .cta h2 {
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .cta p {
+      color: var(--text-inverse);
+      opacity: 0.7;
+      font-size: 16px;
+      margin-bottom: 32px;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 40px 24px;
+      background: var(--navy-light);
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-left {
+      font-size: 13px;
+      color: var(--text-inverse);
+      opacity: 0.5;
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--text-inverse);
+      opacity: 0.6;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .footer-links a:hover { opacity: 1; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .steps-grid { grid-template-columns: 1fr; gap: 40px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .trust-points { grid-template-columns: 1fr; }
+      .nav-links a:not(.btn) { display: none; }
+      .hero { padding: 120px 24px 80px; }
+    }
+    @media (max-width: 480px) {
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo">Kairo <span>AI</span></a>
+      <div class="nav-links">
+        <a href="#how-it-works">How It Works</a>
+        <a href="#features">Features</a>
+        <a href="https://chromewebstore.google.com/detail/nmknojfhgaaeghjdipkihclnlgogkmgh?utm_source=item-share-cb" class="btn btn-primary" target="_blank" rel="noopener">Install Extension</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Chrome Extension &mdash; Free to Use</div>
+      <h1>Stop filling forms.<br>Let AI do it.</h1>
+      <p>Upload your documents once. Kairo AI extracts every detail and auto-fills any web form in seconds &mdash; court filings, government portals, onboarding forms, anything.</p>
+      <div class="hero-buttons">
+        <a href="https://chromewebstore.google.com/detail/nmknojfhgaaeghjdipkihclnlgogkmgh?utm_source=item-share-cb" class="btn btn-primary btn-hero" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
+          Add to Chrome
+        </a>
+        <a href="#how-it-works" class="btn btn-outline btn-hero">See How It Works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="steps" id="how-it-works">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-label">How It Works</div>
+        <h2>Three steps. Zero manual entry.</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Upload Your Documents</h3>
+          <p>Drop in passports, leases, contracts, tax forms &mdash; PDFs, images, Word, Excel, or plain text. Kairo reads them all.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>AI Extracts Your Data</h3>
+          <p>Names, dates, addresses, reference numbers &mdash; every field is extracted automatically and stored in your profile.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Auto-Fill Any Form</h3>
+          <p>Navigate to any web form and click "Auto-Fill." Kairo maps your profile to the form fields and fills everything instantly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO -->
+  <section class="demo" id="demo">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-label">Demo</div>
+        <h2>See It In Action</h2>
+      </div>
+      <div class="demo-video">
+        <iframe src="https://drive.google.com/file/d/1zkHKzth1GL1O-w2DHf4ytDsTOcPTaduE/preview" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-label">Features</div>
+        <h2>Built for real-world forms</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <h3>Any Document Type</h3>
+          <p>PDFs, scanned images, Word docs, Excel spreadsheets, handwritten forms &mdash; Kairo's AI reads them all natively.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>Works on Any Website</h3>
+          <p>Government portals, court systems, CRMs, onboarding flows &mdash; including iframes, shadow DOM, and dynamic forms.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Privacy First</h3>
+          <p>Your data is encrypted, never sold, and never used for training. Delete your account and everything is wiped instantly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>Smart Field Matching</h3>
+          <p>AI understands context &mdash; maps "Given Name" to "First Name", handles dropdowns, radios, date formats, and custom widgets.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+          </div>
+          <h3>Multi-Document Profiles</h3>
+          <p>Upload multiple documents per project. Kairo merges extracted data and flags conflicts for you to resolve.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3>Organize by Project</h3>
+          <p>Group documents and profiles by client, case, or matter. Switch between projects with one click.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="trust">
+    <div class="section-inner">
+      <div class="trust-content">
+        <div class="section-label">Security &amp; Privacy</div>
+        <h2>Your data stays yours</h2>
+        <p>Kairo AI is built with privacy at its core. We process your documents securely and never store more than we need.</p>
+        <div class="trust-points">
+          <div class="trust-point">
+            <div class="trust-check">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <p><strong>Encrypted storage</strong> &mdash; all data encrypted at rest and in transit</p>
+          </div>
+          <div class="trust-point">
+            <div class="trust-check">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <p><strong>No background tracking</strong> &mdash; only active when you click the button</p>
+          </div>
+          <div class="trust-point">
+            <div class="trust-check">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <p><strong>Delete anytime</strong> &mdash; wipe your account and all data with one click</p>
+          </div>
+          <div class="trust-point">
+            <div class="trust-check">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <p><strong>Never sold</strong> &mdash; your data is never shared or used for training</p>
+          </div>
+        </div>
+        <a href="https://yan-ga.github.io/autofiller-privacy/" class="btn btn-outline" target="_blank" rel="noopener">Read Our Privacy Policy</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Ready to stop filling forms manually?</h2>
+    <p>Install Kairo AI and save hours every week.</p>
+    <a href="https://chromewebstore.google.com/detail/nmknojfhgaaeghjdipkihclnlgogkmgh?utm_source=item-share-cb" class="btn btn-primary btn-hero" target="_blank" rel="noopener">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
+      Add to Chrome &mdash; It's Free
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">&copy; 2026 Kairo AI. Built by <a href="https://www.linkedin.com/in/yan-ga" target="_blank" rel="noopener" style="color:inherit;opacity:1;text-decoration:underline;">Guanyu Yan</a>.</div>
+      <div class="footer-links">
+        <a href="https://yan-ga.github.io/autofiller-privacy/" target="_blank" rel="noopener">Privacy Policy</a>
+        <a href="https://www.linkedin.com/in/yan-ga" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://chromewebstore.google.com/detail/nmknojfhgaaeghjdipkihclnlgogkmgh?utm_source=item-share-cb" target="_blank" rel="noopener">Chrome Web Store</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
